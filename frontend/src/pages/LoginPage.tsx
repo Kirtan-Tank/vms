@@ -1,8 +1,24 @@
 import { useState, FormEvent } from "react";
 import { supabase } from "../lib/supabase";
 
+const PHONE_DOMAIN = "@vms.local";
+
+export function normalizePhone(input: string): string {
+  // Strip everything except digits
+  let digits = input.replace(/\D/g, "");
+  // Strip leading 91 if it makes 12 digits (Indian country code)
+  if (digits.length === 12 && digits.startsWith("91")) digits = digits.slice(2);
+  // Strip leading 0 if 11 digits (some people type 09876...)
+  if (digits.length === 11 && digits.startsWith("0")) digits = digits.slice(1);
+  return digits;
+}
+
+function toEmail(phone: string): string {
+  return normalizePhone(phone) + PHONE_DOMAIN;
+}
+
 export function LoginPage() {
-  const [email, setEmail] = useState("");
+  const [phone, setPhone] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
@@ -11,8 +27,11 @@ export function LoginPage() {
     e.preventDefault();
     setError(null);
     setLoading(true);
-    const { error } = await supabase.auth.signInWithPassword({ email, password });
-    if (error) setError(error.message);
+    const { error } = await supabase.auth.signInWithPassword({
+      email: toEmail(phone),
+      password,
+    });
+    if (error) setError("Incorrect phone number or password.");
     setLoading(false);
   }
 
@@ -23,12 +42,13 @@ export function LoginPage() {
         <p className="text-sm text-gray-500 mb-6">Visitor Management System</p>
         <form onSubmit={handleSubmit} className="flex flex-col gap-4">
           <div>
-            <label className="label">Email</label>
+            <label className="label">Phone Number</label>
             <input
-              type="email"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
+              type="tel"
+              value={phone}
+              onChange={(e) => setPhone(e.target.value)}
               className="input-field"
+              placeholder="e.g. 9876543210"
               required
               autoFocus
             />

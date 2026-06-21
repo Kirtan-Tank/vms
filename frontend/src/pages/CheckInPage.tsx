@@ -77,6 +77,7 @@ export function CheckInPage({ profile }: Props) {
         host_name: selectedHost?.name ?? "",
         purpose: form.purpose || undefined,
         property_id: profile.property_id,
+        property_name: profile.property_name,
         logged_by: profile.id,
       });
 

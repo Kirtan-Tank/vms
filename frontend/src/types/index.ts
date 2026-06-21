@@ -3,6 +3,7 @@ export interface UserProfile {
   name: string;
   role: "guard" | "host" | "admin";
   property_id: string;
+  property_name: string;
 }
 
 export interface HostOption {

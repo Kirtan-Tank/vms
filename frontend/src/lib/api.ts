@@ -15,11 +15,13 @@ export async function checkIn(payload: {
   host_name: string;
   purpose?: string;
   property_id: string;
+  property_name?: string;
   logged_by: string;
 }): Promise<Visitor> {
+  const { property_name, ...dbPayload } = payload;
   const { data, error } = await supabase
     .from("visitors")
-    .insert({ ...payload, badge_number: generateBadgeNumber() })
+    .insert({ ...dbPayload, badge_number: generateBadgeNumber() })
     .select()
     .single();
 
@@ -34,6 +36,7 @@ export async function checkIn(payload: {
         visitor_id: visitor.id,
         visitor_name: visitor.name,
         host_id: visitor.host_id,
+        property_name: payload.property_name,
       }),
     }).catch(console.error);
   }

@@ -41,5 +41,9 @@ export function useActiveVisitors(propertyId: string | null) {
     };
   }, [propertyId]);
 
-  return { visitors, loading };
+  function removeVisitor(id: string) {
+    setVisitors((prev) => prev.filter((v) => v.id !== id));
+  }
+
+  return { visitors, loading, removeVisitor };
 }

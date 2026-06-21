@@ -22,3 +22,10 @@ class NotifyCheckinRequest(BaseModel):
     visitor_name: str
     host_id: str
     property_name: str | None = None
+
+
+class CreateUserRequest(BaseModel):
+    name: str
+    phone: str
+    password: str
+    role: str  # "guard" | "host"

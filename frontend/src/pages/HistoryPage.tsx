@@ -62,7 +62,7 @@ export function HistoryPage({ profile }: Props) {
     ? visitors.filter(
         (v) =>
           v.name.toLowerCase().includes(search.toLowerCase()) ||
-          v.host_name.toLowerCase().includes(search.toLowerCase())
+          (v.host_name ?? "").toLowerCase().includes(search.toLowerCase())
       )
     : visitors;
 

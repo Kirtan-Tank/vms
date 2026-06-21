@@ -7,7 +7,7 @@ interface Props {
 }
 
 export function ActiveVisitorsPage({ profile }: Props) {
-  const { visitors, loading } = useActiveVisitors(profile?.property_id ?? null);
+  const { visitors, loading, removeVisitor } = useActiveVisitors(profile?.property_id ?? null);
 
   if (!profile) return null;
 
@@ -37,7 +37,7 @@ export function ActiveVisitorsPage({ profile }: Props) {
             </thead>
             <tbody>
               {visitors.map((v) => (
-                <VisitorRow key={v.id} visitor={v} onCheckedOut={() => {}} />
+                <VisitorRow key={v.id} visitor={v} onCheckedOut={() => removeVisitor(v.id)} />
               ))}
             </tbody>
           </table>

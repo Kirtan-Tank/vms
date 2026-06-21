@@ -8,9 +8,11 @@ import { ActiveVisitorsPage } from "./pages/ActiveVisitorsPage";
 import { HistoryPage } from "./pages/HistoryPage";
 import { BadgePrintPage } from "./pages/BadgePrintPage";
 import { HostDashboardPage } from "./pages/HostDashboardPage";
+import { AdminPage } from "./pages/AdminPage";
 
 function defaultRoute(role?: string) {
   if (role === "host") return "/my-visitors";
+  if (role === "admin") return "/admin";
   return "/checkin";
 }
 
@@ -37,6 +39,7 @@ export default function App() {
             <Route path="/active"      element={<ActiveVisitorsPage profile={profile} />} />
             <Route path="/history"     element={<HistoryPage profile={profile} />} />
             <Route path="/my-visitors" element={<HostDashboardPage profile={profile} />} />
+            <Route path="/admin"       element={<AdminPage profile={profile} />} />
           </Route>
         </Route>
       </Routes>

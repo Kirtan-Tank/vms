@@ -34,10 +34,19 @@ export function useAuth() {
   async function fetchProfile(userId: string) {
     const { data } = await supabase
       .from("users")
-      .select("id, name, role, property_id")
+      .select("id, name, role, property_id, properties(name)")
       .eq("id", userId)
       .single();
-    const profile = data as UserProfile | null;
+    const raw = data as any;
+    const profile: UserProfile | null = raw
+      ? {
+          id: raw.id,
+          name: raw.name,
+          role: raw.role,
+          property_id: raw.property_id,
+          property_name: raw.properties?.name ?? "",
+        }
+      : null;
     setProfile(profile);
     setLoading(false);
 

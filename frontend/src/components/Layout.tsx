@@ -53,6 +53,16 @@ export function Layout({ profile, onSignOut }: Props) {
               My Visitors
             </NavLink>
           )}
+          {profile?.role === "admin" && (
+            <NavLink
+              to="/admin"
+              className={({ isActive }) =>
+                isActive ? "text-blue-600 font-medium text-sm" : "text-gray-600 text-sm hover:text-gray-900"
+              }
+            >
+              Staff
+            </NavLink>
+          )}
         </div>
         <div className="flex items-center gap-3 text-sm text-gray-600">
           <span>{profile?.name}</span>
